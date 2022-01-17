@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Account from '../views/Account.vue'
-import About from '../views/About.vue'
+import Task from '../views/Task.vue'
+import Admin from '../views/Admin.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -20,14 +21,19 @@ const routes = [
     component: Dashboard
   },
   {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin
+  },
+  {
     path: '/account',
     name: 'Accout',
     component: Account
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About
+    path: '/task',
+    name: 'Task',
+    component: Task
   }  
 ]
 

@@ -1,12 +1,11 @@
 <template>
-  <div class="text-subtitle-1 ml-4">
-    {{ date }}
-  </div>
+    <v-toolbar-title>
+      {{ date }}
+    </v-toolbar-title>
 </template>
 
 <script>
 import { format } from 'date-fns'
-import { de } from 'date-fns/locale'
 
 export default {
   data() {
@@ -16,8 +15,8 @@ export default {
   },
   methods: {
     getDate() {
-      this.date = format(new Date(), 'd. MMMM, H:mm', { locale: de })
-      setTimeout(this.getDate, 10000)
+      this.date = 'Tag ' + format(new Date(), 'i') + ' - ' + format(new Date(), 'H:mm')
+      setTimeout(this.getDate, 60000)
     }
   },
   mounted() {
