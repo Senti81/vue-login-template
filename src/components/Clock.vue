@@ -6,6 +6,7 @@
 
 <script>
 import { format } from 'date-fns'
+import axios from 'axios'
 
 export default {
   data() {
@@ -14,9 +15,30 @@ export default {
     }
   },
   methods: {
-    getDate() {
-      this.date = 'Tag ' + format(new Date(), 'i') + ' - ' + format(new Date(), 'H:mm')
-      setTimeout(this.getDate, 60000)
+    async setMock() {
+      console.log('using DateTime Mock')
+        const result = await axios(process.env.VUE_APP_BASEURL + '/config')
+        const payload = {
+          day: result.data.day,
+          hour: result.data.hour
+        }
+        this.$store.commit('setMock', payload)
+        console.log(result.data.day)
+    },
+    async getDate() {
+      console.log('getDate')
+      if (process.env.VUE_APP_USEMOCK == 'true') {
+        const result = await axios(process.env.VUE_APP_BASEURL + '/config')
+        const payload = {
+          day: result.data.day,
+          hour: result.data.hour
+        }
+        this.$store.commit('setMock', payload)
+        this.date = 'Tag ' + payload.day  + ' - ' + payload.hour + ':00'
+      } else {
+        this.date = 'Tag ' + format(new Date(), 'i') + ' - ' + format(new Date(), 'H:mm')
+        setTimeout(this.getDate, 60000)
+      }
     }
   },
   mounted() {

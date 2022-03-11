@@ -78,7 +78,6 @@ export default {
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
-        { title: 'Admin', icon: 'mdi-account-cog', to: '/admin' },
         { title: 'Tagesaufgabe', icon: 'mdi-format-list-checks', to: '/task' }
       ],
     }

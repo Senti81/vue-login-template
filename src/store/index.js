@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import router from '../router'
 
 Vue.use(Vuex)
 
@@ -17,7 +16,11 @@ export default new Vuex.Store({
     },
     START: process.env.VUE_APP_TIME_START,
     END: process.env.VUE_APP_TIME_END,
-    RESULT_SHOW: process.env.VUE_APP_TIME_SHOW
+    mock: {
+      day: null,
+      hour: null
+    }
+    
   },
   getters: {
     getToken: state => state.token,
@@ -26,7 +29,8 @@ export default new Vuex.Store({
     getHeader(state) {
       return { headers: { 'Authorization': 'Bearer ' + state.token }}
     },
-    getUser: state => state.user
+    getUser: state => state.user,
+    getMock: state => state.mock
   },
   mutations: {
     login: (state, token) => state.token = token,
@@ -36,7 +40,8 @@ export default new Vuex.Store({
     showSnackbar: (state, text) => {
       state.snackbar.show = true
       state.snackbar.text = text
-    }
+    },
+    setMock: (state, payload) => state.mock = payload
   },
   actions: {
     async verifyLogin ({ commit }, credentials) {
@@ -81,18 +86,13 @@ export default new Vuex.Store({
     async submitSolution({ commit }, payload) {
       try {
         commit('toggleLoading')
-        const response = await axios.post(process.env.VUE_APP_BASEURL + `/tasks/${payload.day}`, payload.data, this.getters.getHeader)
-        switch (response.data.status) {
-          case 'CORRECT':
-            commit('showSnackbar', 'Richtig')
-            router.push('/')
-            break;
-          case 'WRONG':
-            commit('showSnackbar', 'Falsch')            
-            break;
-        }
+        await axios.post(process.env.VUE_APP_BASEURL + `/tasks/${payload.day}`, payload.data, this.getters.getHeader)        
+        commit('showSnackbar', 'Antwort abgegeben')
+
       } catch (error) {
         console.error(error)
+        commit('showSnackbar', 'Hoppla...Da ist was schief gelaufen')
+
       } finally {
         commit('toggleLoading')
       }
