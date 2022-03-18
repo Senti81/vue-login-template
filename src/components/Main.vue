@@ -65,7 +65,7 @@
       src="question-mark.jpg"
       >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>    
-      <Clock/>
+      <Clock v-show="this.$store.getters.isStarted"/>
     </v-app-bar>
 
     <v-main>

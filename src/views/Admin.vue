@@ -61,7 +61,7 @@
           class="grey lighten-3 pa-4"
           elevation="12"
           >
-          <v-card-title>Spiel</v-card-title>
+          <v-card-title>Tag / Uhrzeit</v-card-title>
           <v-card-actions>
             <v-col>
               <v-card-text>

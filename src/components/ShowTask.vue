@@ -76,6 +76,13 @@ export default {
     },
     async getQuest() {
 
+      // Check if a game is in progress
+      const scores = await axios.get(process.env.VUE_APP_BASEURL + '/scores/', this.$store.getters.getHeader)
+      if (scores.data.length === 0) {
+        this.$router.push('/')
+        return
+      }
+
       // Get Score for player
       const result = await axios.get(process.env.VUE_APP_BASEURL + `/scores/player?name=${this.$store.getters.getUser.username}`, this.$store.getters.getHeader)
       
