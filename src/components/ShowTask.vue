@@ -1,44 +1,27 @@
 <template>
   <v-card
-    class="mx-auto"
-    max-width="620"
+    class="grey lighten-3 pa-2 mt-2"
     elevation="12"
-    outlined
-  >
-    <v-list-item three-line>
-      <v-list-item-content>
-        <div class="text-overline mb-4 text-center">
-          OVERLINE
-        </div>
-        <v-list-item-title class="text-h5 mb-1">
-          {{task}}
-        </v-list-item-title>
-        <v-img            
-          aspect-ratio="1.0"
-          :src="image"
-          max-height="300"
-          contain                    
-        >
-        </v-img>
-        <div
-          class="mt-4 text-body-1 text-justify"
-          >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit saepe rem neque temporibus eos maxime, iure nulla, odio aperiam animi dolores quidem ullam voluptatem sit minima sed laboriosam delectus consequuntur perspiciatis et recusandae, totam est aliquam! Pariatur distinctio, sint eum illum, ad culpa itaque aspernatur doloribus tempora odit aliquam! Quidem?</div>
-      </v-list-item-content>
-    </v-list-item>
-    <v-card-actions>
+    >
+    <v-card-title>
+      {{task}}
+    </v-card-title>
+    <v-card-text>
       <v-text-field
-        class="mx-4"
-        :placeholder="label"
+        :label="label"
+        type="text"
         v-model="solution"
-      >
+        required
+        >
       </v-text-field>
-      <v-btn
-        outlined
-        rounded
-        text
+    </v-card-text>
+    <v-card-actions>
+      <v-btn            
+        class="pa-4 mt-4"
+        color="primary"
         @click="submit"
-      >
-        Absenden
+        >
+        Lösung einreichen
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -53,14 +36,13 @@ export default {
     return {
       day: format(new Date(), 'i'),
       task: '',
-      image: '',
       solution: ''
     }
   },
   computed: {
     label() {
       return 'Lösung für Tag ' + this.day
-    }  
+    }
   },
   methods: {
     async submit() {
@@ -72,7 +54,6 @@ export default {
         }
       }
       this.$store.dispatch('submitSolution', payload)
-      this.$router.push('/')
     },
     async getQuest() {
 
@@ -93,15 +74,11 @@ export default {
       // Show daily quest
       {
         const result = await axios.get(process.env.VUE_APP_BASEURL + `/tasks/${this.day}`, this.$store.getters.getHeader)
-        this.image = result.data.img
         this.task = result.data.description
       }
     },
   },
   mounted() {
-    if (this.$store.getters.getMock.day)  {
-      this.day = this.$store.getters.getMock.day
-    }
     this.getQuest()
   }
 }

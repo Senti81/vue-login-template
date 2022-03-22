@@ -20,11 +20,11 @@ export default {
     Main,
     Snackbar,
     Overlay
-  }, 
+  },
   mounted() {
-    const token = localStorage.getItem('user-token')
-    if(token) 
-      this.$store.dispatch('validateToken', token)
-  }
-}
+      const token = localStorage.getItem('user-token')
+      if(token) 
+        this.$store.dispatch('validateToken', token)
+    }
+};
 </script>

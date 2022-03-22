@@ -34,7 +34,7 @@ const routes = [
     path: '/task',
     name: 'Task',
     component: Task
-  }
+  }  
 ]
 
 const router = new VueRouter({
@@ -44,10 +44,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'Demo') {
-    next()
-  }
-  else if(to.name !== 'Login' && !store.getters.isAuthenticated)
+  if(to.name !== 'Login' && !store.getters.isAuthenticated)
     next({ name: 'Login' })
   else {
     next()
