@@ -20,8 +20,7 @@ export default new Vuex.Store({
       day: null,
       hour: null
     },
-    admin: false,
-    started: false
+    admin: false    
   },
   getters: {
     getToken: state => state.token,
@@ -32,8 +31,7 @@ export default new Vuex.Store({
     },
     getUser: state => state.user,
     getMock: state => state.mock,
-    isAdmin: state => state.admin,
-    isStarted: state => state. started
+    isAdmin: state => state.admin
   },
   mutations: {
     login: (state, token) => state.token = token,
@@ -45,8 +43,7 @@ export default new Vuex.Store({
       state.snackbar.text = text
     },
     setMock: (state, payload) => state.mock = payload,
-    setAdmin: (state, admin) => state.admin = admin,
-    setGameStarted: state => state.started = true
+    setAdmin: (state, admin) => state.admin = admin
   },
   actions: {
     async verifyLogin ({ commit }, credentials) {
@@ -111,14 +108,7 @@ export default new Vuex.Store({
       } finally {
         commit('toggleLoading')
       }
-    },
-    async isInProgress({ commit }) {
-      const res = await axios.get(process.env.VUE_APP_BASEURL + '/scores/', this.getters.getHeader)
-      if (res.data.length !== 0) {
-        commit('setGameStarted', true)
-        console.log('Game started')
-      }
-    },
+    },    
     logout: ({ commit }) => {
       commit('logout')
       localStorage.removeItem('user-token')

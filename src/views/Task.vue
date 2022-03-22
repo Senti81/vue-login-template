@@ -17,14 +17,7 @@ export default {
   },
   computed: {
     show() {
-      const startTime = this.$store.state.START
-      const endTime = this.$store.state.END
-      const mockedTime = this.$store.getters.getMock.hour
-
-      if (this.$store.getters.getMock) {
-        return mockedTime >= startTime && mockedTime < endTime
-      }
-      return format(new Date(), 'H') >= startTime && format(new Date(), 'H') < endTime
+      return format(new Date(), 'H') >= this.$store.state.START && format(new Date(), 'H') < this.$store.state.END
     }
   } 
 }
