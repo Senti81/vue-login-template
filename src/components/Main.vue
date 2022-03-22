@@ -49,15 +49,15 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      dense       
+    <v-app-bar 
       app
       color="primary"
       dark
       src="question-mark.jpg"
       >
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>    
-      <Clock/>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>{{this.$store.state.appTitle}}</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -68,18 +68,14 @@
 </template>
 
 <script>
-import Clock from '@/components/Clock.vue'
+
 export default {
-  components: {
-    Clock
-  },
   data() {
     return {
       drawer: null,
       items: [
         { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
-        { title: 'Admin', icon: 'mdi-account-cog', to: '/admin' },
-        { title: 'Tagesaufgabe', icon: 'mdi-format-list-checks', to: '/task' }
+        { title: 'About', icon: 'mdi-help-box', to: '/about' }
       ],
     }
   },
