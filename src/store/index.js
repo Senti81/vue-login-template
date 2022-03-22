@@ -19,8 +19,8 @@ export default new Vuex.Store({
     mock: {
       day: null,
       hour: null
-    },
-    admin: false    
+    }
+    
   },
   getters: {
     getToken: state => state.token,
@@ -30,8 +30,7 @@ export default new Vuex.Store({
       return { headers: { 'Authorization': 'Bearer ' + state.token }}
     },
     getUser: state => state.user,
-    getMock: state => state.mock,
-    isAdmin: state => state.admin
+    getMock: state => state.mock
   },
   mutations: {
     login: (state, token) => state.token = token,
@@ -42,8 +41,7 @@ export default new Vuex.Store({
       state.snackbar.show = true
       state.snackbar.text = text
     },
-    setMock: (state, payload) => state.mock = payload,
-    setAdmin: (state, admin) => state.admin = admin
+    setMock: (state, payload) => state.mock = payload
   },
   actions: {
     async verifyLogin ({ commit }, credentials) {
@@ -53,7 +51,6 @@ export default new Vuex.Store({
           localStorage.setItem('user-token', response.data.token);
           commit('login', response.data.token)
           commit('setUser', response.data.user)
-          commit('setAdmin', response.data.user.role === 'ADMIN')
         }
         return response
       } catch (e) {
@@ -63,8 +60,7 @@ export default new Vuex.Store({
     async validateToken ({commit}, token) {
       try {
         const response = await axios.post(process.env.VUE_APP_BASEURL + '/users/me', {token})
-        commit('setUser', response.data)
-        commit('setAdmin', response.data.role === 'ADMIN')
+        commit('setUser', response.data)        
       } catch (error) {
         console.error(error)
         commit('logout')
@@ -79,21 +75,13 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async updateUser({commit}, payload) {
+    async updateUser ({commit}, payload) {
       try {
         const response = await axios.put(process.env.VUE_APP_BASEURL + '/users/me', payload, this.getters.getHeader)
         commit('setUser', response.data)        
       } catch (error) {
         console.error(error)
       }
-    },
-    async startGame({commit}) {
-      const result = await axios.post(process.env.VUE_APP_BASEURL + '/scores/start', {}, this.getters.getHeader)
-      commit('showSnackbar', result.data)
-    },
-    async stopGame({commit}) {
-      const result = await axios.delete(process.env.VUE_APP_BASEURL + '/scores/', this.getters.getHeader)
-      commit('showSnackbar', result.data)
     },
     async submitSolution({ commit }, payload) {
       try {

@@ -26,6 +26,7 @@ export default {
         console.log(result.data.day)
     },
     async getDate() {
+      console.log('getDate')
       if (process.env.VUE_APP_USEMOCK == 'true') {
         const result = await axios(process.env.VUE_APP_BASEURL + '/config')
         const payload = {
