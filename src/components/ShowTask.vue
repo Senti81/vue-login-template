@@ -3,9 +3,6 @@
     class="grey lighten-3 pa-2 mt-2"
     elevation="12"
     >
-    <v-card-title>
-      {{task}}
-    </v-card-title>
     <v-card-text>
       <v-text-field
         :label="label"
@@ -35,7 +32,6 @@ export default {
   data() {
     return {
       day: format(new Date(), 'i'),
-      task: '',
       solution: ''
     }
   },
@@ -55,31 +51,19 @@ export default {
       }
       this.$store.dispatch('submitSolution', payload)
     },
-    async getQuest() {
-
-      // Get Score for player
+    async hasAlreadySubmitted() {
       const result = await axios.get(process.env.VUE_APP_BASEURL + `/scores/player?name=${this.$store.getters.getUser.username}`, this.$store.getters.getHeader)
-      
-      // Error handling - redirect to dashboard
       if (result.data === '') {
         this.$router.push('/')      
-      } else
-      
-      // Player has already submitted daily quest
+      } else 
       if (this.day == result.data.points.length) {
         this.$store.commit('showSnackbar', 'Tagesaufgabe bereits gelöst')
         this.$router.push('/')
-      } else 
-      
-      // Show daily quest
-      {
-        const result = await axios.get(process.env.VUE_APP_BASEURL + `/tasks/${this.day}`, this.$store.getters.getHeader)
-        this.task = result.data.description
       }
-    },
+    }
   },
   mounted() {
-    this.getQuest()
+    this.hasAlreadySubmitted()
   }
 }
 </script>
